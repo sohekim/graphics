@@ -1,0 +1,45 @@
+<head>
+	<title>Ambient Test Scene</title>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<script src="../three.min.js"></script>
+<script src="../raytracer.js"></script>
+<script src="../camera.js"></script>
+<script src="../light.js"></script>
+<script src="../shape.js"></script>
+<script src="../material.js"></script>
+
+<script>
+	let imageWidth = 400;
+	let imageHeight = 400;
+	let exposure = 1;
+	let backgroundColor = new THREE.Color(0, 0, 0);
+	let ambientLight = new THREE.Color(0, 0, 1);
+	let maxDepth = 5;
+	let camera;
+	let shapes = [];
+	let lights = [];
+	function init() {		
+		// create camera
+		let eye = new THREE.Vector3(0, 2, 30);
+		let target = new THREE.Vector3(0, 0, 0);
+		let up = new THREE.Vector3(0, 1, 0);
+		let fov = 30;
+		camera = new PinholeCamera(eye, target, up, fov, imageWidth/imageHeight);
+		
+		ka = new THREE.Color(1, 1, 1);
+		kd = new THREE.Color(1, 1, 1);
+		let P = new THREE.Vector3(0, -1, 0);
+		let N = new THREE.Vector3(0, 1, 0);
+		shapes.push(new Plane(P, N, DiffuseMaterial(ka, kd)));
+
+		// start ray tracing
+		render();
+				
+	}
+	
+	window.onload = init;
+</script>
+</body>
+

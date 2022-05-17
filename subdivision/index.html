@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<title>Homework 4 - Subdivision</title>
+		<style>
+			#msg {
+				position: fixed;
+				color: #404040;
+				font-family: monospace;
+				font-size: 16px;
+				top: 612px;
+				left: 20px;
+				background-color: #DDDDDD;
+			}
+			#help {
+				position: fixed;
+				color: #606060;
+				font-family: monospace;
+				font-size: 13px;
+				top: 640px;
+				left: 20px;
+			}
+			#surface {
+				border: 1px solid gray;
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				width: 600px;
+				height: 600px;
+				background-color: #000033;
+			}
+
+		</style>
+		<meta charset="utf-8"/>
+	</head>
+	<!-- This is important to prevent menu during right-click -->
+	<body>
+		<!-- Example control points. -->
+		<script src="three.min.js"></script>
+		<script src="OrbitControls.js"></script>
+		<script src="objstrings.js"></script>
+		<script src="simpleOBJMeshLoader.js"></script>
+		<script src="subdivision.js"></script>
+		<div id="surface" width=600 height=600></div>
+		<div id="msg" width=600>Output</div>
+		<div id="help" width=600>Key/Mouse Controls
+		<ul>
+		<li>'r': reset transformation parameters</li>
+		<li>'w': toggle wireframe/solid rendering</li>
+		<li>'f': toggle flat/smooth rendering</li>
+		<li>'s': compute one step of subdivision (or press space bar)</li>
+		<li>'e': erase the current subdivision surface and recover to input object</li>
+		<li>Number keys: load a test object</li>
+		</ul>
+		</div>
+	</body>
+</html>

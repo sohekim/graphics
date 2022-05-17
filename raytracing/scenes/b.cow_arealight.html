@@ -1,0 +1,53 @@
+<head>
+	<title>Cow Scene</title>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<script src="../three.min.js"></script>
+<script src="../raytracer.js"></script>
+<script src="../camera.js"></script>
+<script src="../light.js"></script>
+<script src="../simpleOBJMeshLoader.js"></script>
+<script src="models/cow.js"></script>
+<script src="../shape.js"></script>
+<script src="../material.js"></script>
+
+<script>
+	let imageWidth = 400;
+	let imageHeight = 400;
+	let exposure = 1;
+	let backgroundColor = new THREE.Color(0, 0, 0);
+	let ambientLight = new THREE.Color(0.02, 0.02, 0.02);
+	let maxDepth = 5;
+	let camera;
+	let shapes = [];
+	let lights = [];
+	function init() {		
+		// create camera
+		let eye = new THREE.Vector3(2, 1, 5);
+		let target = new THREE.Vector3(0, 0, 0);
+		let up = new THREE.Vector3(0, 1, 0);
+		let fov = 22.5;
+		camera = new PinholeCamera(eye, target, up, fov, imageWidth/imageHeight);
+		
+		// create point lights
+		createAreaLight(new THREE.Vector3(1, 2, 1), 5, new THREE.Color(0.16, 0.16, 0.16), 5);
+		
+		let ka = new THREE.Color(0.8,0.5,0.2);
+		let kd = new THREE.Color(0.8,0.5,0.2);
+		let ks = new THREE.Color(1,1,1);
+		let p = 40;
+		shapeLoadOBJ(cow_model, PhongMaterial(ka, kd, ks, p));
+
+		shapes.push(new Plane(new THREE.Vector3(0, -0.75, 0), new THREE.Vector3(0, 1, 0),
+			DiffuseMaterial(new THREE.Color(0, 0, 0), new THREE.Color(1, 1, 1))));
+
+		// start ray tracing
+		render();
+				
+	}
+	
+	window.onload = init;
+</script>
+</body>
+

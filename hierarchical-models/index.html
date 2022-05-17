@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <title>Homework 5 - Hierarchical Scene</title>
+    <meta charset="utf-8" />
+</head>
+<style>
+    #msg {
+        position: absolute;
+        color: white;
+        font-family: monospace;
+        font-size: 16px;
+        top: 20px;
+        left: 20px;
+        background-color: #202020;
+    }
+    
+    #window {
+        border: 1px solid gray;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 800px;
+        height: 600px;
+        background-color: #202020;
+    }
+</style>
+
+<body>
+    <script src="three.min.js"></script>
+    <script src="OrbitControls.js"></script>
+    <script src="simpleOBJMeshLoader.js"></script>
+    <script src="models/bunny.js"></script>
+    <script src="models/bird.js"></script>
+    <script src="models/female.js"></script>
+    <script src="models/tree_aspen.js"></script>
+    <!--include any models you want to use here before hierarchical.js-->
+    <script src="hierarchical.js"></script>
+    <div id="window" width=800 height=600></div>
+    <div id="msg" width=300>animation_speed = 1.0</div>
+</body>
+
+</html>

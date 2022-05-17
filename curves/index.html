@@ -1,0 +1,78 @@
+<html>
+	<head>
+		<title>Homework 3 - Curves</title>
+		<style>
+			#curve {
+				border: 1px solid gray;
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				width: 600px;
+				height: 600px;
+				background-color: black;
+			}
+			#msg {
+				position: fixed;
+				color: #404040;
+				font-family: monospace;
+				font-size: 16px;
+				top: 615px;
+				left: 20px;
+				background-color: #DDDDDD;
+			}
+			#help {
+				position: fixed;
+				color: #606060;
+				font-family: monospace;
+				font-size: 13px;
+				top: 650px;
+				left: 20px;
+			}
+			#surface {
+				border: 1px solid gray;
+				position: absolute;
+				top: 0px;
+				left: 600px;
+				width: 600px;
+				height: 600px;
+				background-color: #000033;
+			}
+
+		</style>
+		<meta charset="utf-8"/>
+	</head>
+	<!-- This is important to prevent menu during right-click -->
+	<body oncontextmenu="return false;">
+		<!-- Example control points. -->
+		<script src="three.min.js"></script>
+		<script src="dat.gui.min.js"></script>	
+		<script src="curves.js"></script>
+		<script src="OBJExporter.js"></script>
+		<script src="FileSaver.js"></script>
+		<script src="preset.js"></script>
+		<canvas id="curve" width=600 height=600></canvas>
+		<div id="surface" width=600 height=600></div>
+		<div id="msg" width=600>Homework 3 - Curves</div>
+		<div id="help" width=600>Key/Mouse Controls
+		<ul>
+		<li>'z': draw Bezier</li>
+		<li>'b': draw BSpline</li>
+		<li>'m': draw Hermite</li>
+		<li>'=': increment nSegment</li>
+		<li>'-': decrement nSegment</li>
+		<li>'e': erase all control points</li>
+		<li>'l': show control lines</li>
+		<li>'c': toggle close/open curve (applicable to BSpline and Hermite only)</li>
+		<li>'a': toggle show/hide rotation axis</li>
+		<li>'s': generate or update surface (or press space bar)</li>
+		<li>'w': toggle wireframe/solid rendering mode</li>
+		<li>'f': toggle flat/smooth rendering mode</li>
+		<li>CTRL+Click : add a control point (or ALT+Click, COMMAND+Click)</li>
+		<li>SHIFT+Click: delete an existing control point</li>
+		<li>Arrow keys : move rotation axis left/right</li>
+		<li>Number keys: load preset control points (1 through 5)</li>
+		<li>Auto Mesh (on control panel): keep mesh updated whenever curve changes</li>
+		</ul>
+		</div>
+	</body>
+</html>

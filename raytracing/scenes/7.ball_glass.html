@@ -1,0 +1,59 @@
+<head>
+	<title>Ball Glass Scene</title>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<script src="../three.min.js"></script>
+<script src="../raytracer.js"></script>
+<script src="../camera.js"></script>
+<script src="../light.js"></script>
+<script src="../shape.js"></script>
+<script src="../material.js"></script>
+
+<script>
+	let imageWidth = 640;
+	let imageHeight = 480;
+	let exposure = 1;
+	let backgroundColor = new THREE.Color(0, 0, 0);
+	let ambientLight = new THREE.Color(0.01, 0.01, 0.01);
+	let maxDepth = 5;
+	let camera;
+	let shapes = [];
+	let lights = [];
+	function init() {		
+		// create camera
+		let eye = new THREE.Vector3(8, 5, 9);
+		let target = new THREE.Vector3(0.25, 0, 0.5);
+		let up = new THREE.Vector3(0, 1, 0);
+		let fov = 20;
+		camera = new PinholeCamera(eye, target, up, fov, imageWidth/imageHeight);
+		
+		// simulate an area light by discretizing it into NsxNs point lights
+		createAreaLight(new THREE.Vector3(10, 10, 5), 2, new THREE.Color(25, 25, 25), 10);
+		
+		// create specular sphere
+		let radius = 1.25;
+		shapes.push(new Sphere(new THREE.Vector3(-2.5, 0, -2), radius,
+			PhongMaterial(new THREE.Color(1, 0.2, 0.2), new THREE.Color(1, 0.2, 0.2), new THREE.Color(2, 2, 2), 20)));
+
+		// create diffuse sphere
+		shapes.push(new Sphere(new THREE.Vector3(-1.5, 0, -4), radius,
+			DiffuseMaterial(new THREE.Color(0.2, 0.2, 1), new THREE.Color(0.2, 0.2, 1))));
+
+		// create glass sphere
+		shapes.push(new Sphere(new THREE.Vector3(radius, 0, radius), radius,
+			GlassMaterial(new THREE.Color(0, 0, 0), new THREE.Color(1, 1, 1), 1.8)));		
+
+		// create diffuse plane
+		shapes.push(new Plane(new THREE.Vector3(0, -radius, 0), new THREE.Vector3(0, 1, 0),
+			DiffuseMaterial(new THREE.Color(1.0, 1.0, 0.2), new THREE.Color(1.0, 1.0, 0.2))));
+
+		// start ray tracing
+		render();
+				
+	}
+	
+	window.onload = init;
+</script>
+</body>
+

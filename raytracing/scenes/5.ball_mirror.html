@@ -1,0 +1,55 @@
+<head>
+	<title>Ball Mirror Scene</title>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<script src="../three.min.js"></script>
+<script src="../raytracer.js"></script>
+<script src="../camera.js"></script>
+<script src="../light.js"></script>
+<script src="../shape.js"></script>
+<script src="../material.js"></script>
+
+<script>
+	let imageWidth = 640;
+	let imageHeight = 480;
+	let exposure = 1;
+	let backgroundColor = new THREE.Color(0, 0, 0);
+	let ambientLight = new THREE.Color(0.01, 0.01, 0.01);
+	let maxDepth = 5;
+	let camera;
+	let shapes = [];
+	let lights = [];
+	function init() {		
+		// create camera
+		let eye = new THREE.Vector3(8, 5, 9);
+		let target = new THREE.Vector3(0.25, 0, 0.5);
+		let up = new THREE.Vector3(0, 1, 0);
+		let fov = 30;
+		camera = new PinholeCamera(eye, target, up, fov, imageWidth/imageHeight);
+		
+		// create a point light
+		lights.push(new PointLight(new THREE.Vector3(10, 10, 5), new THREE.Color(100, 96, 88)));
+		
+		// create specular sphere
+		let radius = 1.25;
+		shapes.push(new Sphere(new THREE.Vector3(radius, 0, -radius), radius,
+			PhongMaterial(new THREE.Color(1, 0.2, 0.2), new THREE.Color(1, 0.2, 0.2), new THREE.Color(2, 2, 2), 20)));
+
+		// create mirror sphere
+		shapes.push(new Sphere(new THREE.Vector3(-radius, 0, radius), radius,
+			MirrorMaterial(new THREE.Color(1, 1, 1))));		
+
+		// create diffuse plane
+		shapes.push(new Plane(new THREE.Vector3(0, -radius, 0), new THREE.Vector3(0, 1, 0),
+			DiffuseMaterial(new THREE.Color(1.0, 1.0, 0.2), new THREE.Color(1.0, 1.0, 0.2))));
+
+		// start ray tracing
+		render();
+				
+	}
+	
+	window.onload = init;
+</script>
+</body>
+

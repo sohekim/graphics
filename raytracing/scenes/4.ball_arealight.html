@@ -1,0 +1,56 @@
+<head>
+	<title>Ball Arealight Scene</title>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<script src="../three.min.js"></script>
+<script src="../raytracer.js"></script>
+<script src="../camera.js"></script>
+<script src="../light.js"></script>
+<script src="../shape.js"></script>
+<script src="../material.js"></script>
+
+<script>
+	let imageWidth = 640;
+	let imageHeight = 480;
+	let exposure = 1;
+	let backgroundColor = new THREE.Color(0, 0, 0);
+	let ambientLight = new THREE.Color(0.02, 0.02, 0.02);
+	let maxDepth = 5;
+	let camera;
+	let shapes = [];
+	let lights = [];
+	function init() {		
+		// create camera
+		let eye = new THREE.Vector3(1, 1, 5);
+		let target = new THREE.Vector3(0, 0, 0);
+		let up = new THREE.Vector3(0, 1, 0);
+		let fov = 45;
+		camera = new PinholeCamera(eye, target, up, fov, imageWidth/imageHeight);
+		
+		// simulate an area light given its center, size, intensity, and num samples
+		createAreaLight(new THREE.Vector3(1, 2, 1), 5, new THREE.Color(0.2, 0.2, 0.2), 16);
+		
+		// create shapes and materials
+		shapes.push(new Sphere(new THREE.Vector3(0, 0, -1), 1,
+			PhongMaterial(new THREE.Color(1.0,0.3,0.1), new THREE.Color(1.0,0.3,0.1), new THREE.Color(20, 20, 20), 1000)));
+		shapes.push(new Sphere(new THREE.Vector3(-1, -0.1, 1), 0.5, 
+			DiffuseMaterial(new THREE.Color(0, 0.3, 1.0), new THREE.Color(0, 0.3, 1.0))));
+		shapes.push(new Sphere(new THREE.Vector3(1.5, -0.4, 1), 0.5, 
+			DiffuseMaterial(new THREE.Color(0.3, 1.0, 0), new THREE.Color(0.3, 1.0, 0))));
+
+		ka = new THREE.Color(1, 1, 1);
+		kd = new THREE.Color(1, 1, 1);
+		let P = new THREE.Vector3(0, -0.7, 0);
+		let N = new THREE.Vector3(0, 1, 0);
+		shapes.push(new Plane(P, N, DiffuseMaterial(ka, kd)));
+
+		// start ray tracing
+		render();
+				
+	}
+	
+	window.onload = init;
+</script>
+</body>
+

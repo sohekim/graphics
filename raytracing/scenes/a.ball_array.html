@@ -1,0 +1,66 @@
+<head>
+	<title>Ball Array Scene</title>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<script src="../three.min.js"></script>
+<script src="../raytracer.js"></script>
+<script src="../camera.js"></script>
+<script src="../light.js"></script>
+<script src="../shape.js"></script>
+<script src="../material.js"></script>
+
+<script>
+	let imageWidth = 640;
+	let imageHeight = 480;
+	let exposure = 1;
+	let backgroundColor = new THREE.Color(0, 0, 0);
+	let ambientLight = new THREE.Color(0.02, 0.02, 0.02);
+	let maxDepth = 5;
+	let camera;
+	let shapes = [];
+	let lights = [];
+	function init() {		
+		// create camera
+		let eye = new THREE.Vector3(0, 20, 20);
+		let target = new THREE.Vector3(0, 0, 1);
+		let up = new THREE.Vector3(0, 1, 0);
+		let fov = 28;
+		camera = new PinholeCamera(eye, target, up, fov, imageWidth/imageHeight);
+		
+		// simulate an area light by discretizing it into NsxNs point lights
+		createAreaLight(new THREE.Vector3(20, 20, 12), 8, new THREE.Color(6, 6, 6), 8);		
+		
+		// procedurally generate an array of spheres with specularity
+		let center = new THREE.Vector3();
+		let radius = 1.25;
+		let ka = new THREE.Color(0, 0, 0);
+		let kd = new THREE.Color(0, 0, 0);
+		let ks = new THREE.Color(10, 10, 10);
+		let Nb = 4;
+		for(let j=0;j<=Nb;j++) {
+			for(let i=0;i<=Nb;i++) {
+				center.x = (i/Nb-0.5)*12;
+				center.z = (j/Nb-0.5)*12;
+				ka.r = kd.r = (i/Nb);
+				ka.g = kd.g = (j/Nb);
+				let p = (i+1)*(i+1)*20;
+				shapes.push(new Sphere(center, radius, PhongMaterial(ka, kd, ks, p)));
+			}
+		}
+
+		ka = new THREE.Color(0.2, 0.2, 1.0);
+		kd = new THREE.Color(0.2, 0.2, 1.0);
+		let P = new THREE.Vector3(0, -1.25, 0);
+		let N = new THREE.Vector3(0, 1, 0);
+		shapes.push(new Plane(P, N, DiffuseMaterial(ka, kd)));
+
+		// start ray tracing
+		render();
+				
+	}
+	
+	window.onload = init;
+</script>
+</body>
+

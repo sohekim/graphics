@@ -1,0 +1,53 @@
+<head>
+	<title>Triangle Pointlight Scene</title>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<script src="../three.min.js"></script>
+<script src="../raytracer.js"></script>
+<script src="../camera.js"></script>
+<script src="../light.js"></script>
+<script src="../shape.js"></script>
+<script src="../material.js"></script>
+
+<script>
+	let imageWidth = 640;
+	let imageHeight = 480;
+	let exposure = 1;
+	let backgroundColor = new THREE.Color(0.3, 0.3, 0.3);
+	let ambientLight = new THREE.Color(0.01, 0.01, 0.01);
+	let maxDepth = 5;
+	let camera;
+	let shapes = [];
+	let lights = [];
+	function init() {		
+		// create camera
+		let eye = new THREE.Vector3(8, 8, 9);
+		let target = new THREE.Vector3(-1.25, 0, -1);
+		let up = new THREE.Vector3(0, 1, 0);
+		let fov = 30;
+		camera = new PinholeCamera(eye, target, up, fov, imageWidth/imageHeight);
+		
+		// create a point light
+		lights.push(new PointLight(new THREE.Vector3(6, 8, 5), new THREE.Color(100, 96, 88)));
+		
+		// create a floating triangle
+		shapes.push(new Triangle(new THREE.Vector3(-2,-1,2), new THREE.Vector3(2,-1,-2), new THREE.Vector3(-0.5,3.25,0),
+			PhongMaterial(new THREE.Color(1,0.2,0.2), new THREE.Color(1,0.2,0.2), new THREE.Color(2,2,2), 20)));
+
+		// create ground by two triangles
+		let diffuseMat = DiffuseMaterial(new THREE.Color(1, 1, 0.2), new THREE.Color(1, 1, 0.2));
+		shapes.push(new Triangle(new THREE.Vector3(-10,-2.25,10), new THREE.Vector3(10,-2.25,10), new THREE.Vector3(10,-2.25,-10), 
+			diffuseMat));
+		shapes.push(new Triangle(new THREE.Vector3(-10,-2.25,10), new THREE.Vector3(10,-2.25,-10), new THREE.Vector3(-10,-2.25,-10),
+			diffuseMat));
+
+		// start ray tracing
+		render();
+				
+	}
+	
+	window.onload = init;
+</script>
+</body>
+

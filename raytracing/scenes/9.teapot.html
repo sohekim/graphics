@@ -1,0 +1,55 @@
+<head>
+	<title>Teapot Scene</title>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<script src="../three.min.js"></script>
+<script src="../raytracer.js"></script>
+<script src="../camera.js"></script>
+<script src="../light.js"></script>
+<script src="../simpleOBJMeshLoader.js"></script>
+<script src="models/teapot.js"></script>
+<script src="../shape.js"></script>
+<script src="../material.js"></script>
+
+<script>
+	let imageWidth = 400;
+	let imageHeight = 400;
+	let exposure = 1;
+	let backgroundColor = new THREE.Color(0, 0, 0);
+	let ambientLight = new THREE.Color(0.03, 0.03, 0.03);
+	let maxDepth = 5;
+	let camera;
+	let shapes = [];
+	let lights = [];
+	function init() {		
+		// create camera
+		let eye = new THREE.Vector3(-4, 1, 3);
+		let target = new THREE.Vector3(0, 0, 0);
+		let up = new THREE.Vector3(0, 1, 0);
+		let fov = 20;
+		camera = new PinholeCamera(eye, target, up, fov, imageWidth/imageHeight);
+		
+		// create point lights
+		lights.push(new PointLight(new THREE.Vector3(-1, 2, 1), new THREE.Color(4, 2, 2)));
+		lights.push(new PointLight(new THREE.Vector3(1, 2, 1), new THREE.Color(2, 4, 2)));
+
+		let ka = new THREE.Color(0.42,0.26,0.2);
+		let kd = new THREE.Color(0.42,0.26,0.2);
+		let ks = new THREE.Color(4,4,4);
+		let p = 80;
+		// remove the last parameter (or change it to false) to disable smooth normals
+		shapeLoadOBJ(teapot_model, PhongMaterial(ka, kd, ks, p), true);
+
+		shapes.push(new Plane(new THREE.Vector3(0, -0.68, 0), new THREE.Vector3(0, 1, 0),
+			DiffuseMaterial(new THREE.Color(0,0,0), new THREE.Color(1, 1, 1))));
+
+		// start ray tracing
+		render();
+				
+	}
+	
+	window.onload = init;
+</script>
+</body>
+
